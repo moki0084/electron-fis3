@@ -1,0 +1,22 @@
+{
+  "name": "electron-fis3",
+  "version": "1.0.0",
+  "description": "A fis3 Electron application ",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "fis3"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^1.4.1"
+  },
+  "dependencies": {
+    "fis3": "^3.4.24"
+  }
+}
