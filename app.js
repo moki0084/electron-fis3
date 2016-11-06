@@ -9,8 +9,7 @@ app.on('ready', function () {
     width: 800,
     height: 600
   });
-
-  mainWindow.loadURL('file://' + __dirname + '/app.html');
+  mainWindow.loadURL('file://' + __dirname + '/app/index.html');
   mainWindow.openDevTools();
 
   mainWindow.on('closed', function () {
