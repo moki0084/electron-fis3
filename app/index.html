@@ -10,90 +10,89 @@
 </head>
 
 <body>
-
-  <div id="app"></div>
-  <section class="content">
-    <h2> fis3 可视化构建工具</h2>
-    <div class="pure-form">
-
-      <div>
-        <label for="">项目路径</label>
-        <div><input type="file" webkitdirectory><div class="pure-button">选择目录</div></div>
-      </div>
-
-      <div>
-        <label for="">目标路径</label>
-        <div><input type="file" webkitdirectory> <div class="pure-button">选择目录</div></div>
-      </div>
-
-
-      <div>
-        <label for="">模式</label>
-        <label><input type="radio" name="mode">开发</label>
-        <label><input type="radio" name="mode">本地服务器</label>
-        <label><input type="radio" name="mode">发布</label>
-        <label><input type="radio" name="mode">静态资源文件</label>
-        <label><input type="radio" name="mode">自定义</label>
-      </div>
-
-      <div>
-        <h3>js</h3>
+  <div id="app">
+    <index></index>
+  </div>
+  <template id="index">
+    <section class="content">
+      <h2> fis3 可视化构建工具</h2>
+      <div class="pure-form">
         <div>
-          <label><input type="checkbox" name="js">压缩</label>
-          <label><input type="checkbox" name="js">babel</label>
+          <label for="">项目路径</label>
+          <div><input type="file" webkitdirectory>
+            <div class="pure-button">选择目录</div>
+          </div>
+        </div>
+        <div>
+          <label for="">目标路径</label>
+          <div><input type="file" webkitdirectory>
+            <div class="pure-button">选择目录</div>
+          </div>
+        </div>
+        <div>
+          <label for="">模式</label>
+          <label><input type="radio" name="mode">开发</label>
+          <label><input type="radio" name="mode">本地服务器</label>
+          <label><input type="radio" name="mode">发布</label>
+          <label><input type="radio" name="mode">静态资源文件</label>
+          <label><input type="radio" name="mode">自定义</label>
+        </div>
+        <div>
+          <h3>js</h3>
+          <div>
+            <label><input type="checkbox" name="js">压缩</label>
+            <label><input type="checkbox" name="js">babel</label>
+          </div>
+        </div>
+        <div>
+          <h3>img</h3>
+          <div>
+            <label><input type="checkbox" name="img">压缩</label>
+          </div>
+        </div>
+        <div>
+          <h3>css</h3>
+          <div>
+            <label><input type="checkbox" name="css">压缩</label>
+            <label><input type="checkbox" name="css">sourceMap</label>
+          </div>
+        </div>
+        <div>
+          <h3>html</h3>
+          <label><input type="checkbox" name="html">压缩</label>
+          <label><input type="checkbox" name="html">不编译</label>
         </div>
       </div>
-
       <div>
-        <h3>img</h3>
-        <div>
-          <label><input type="checkbox" name="img">压缩</label>
-        </div>
+        编译
+        <label><input type="checkbox" name="build">liveload</label>
+        <label><input type="checkbox" name="build">watch</label>
+        <button class="pure-button pure-button-primary" data-cmd="server start">启动</button>
+        <button class="pure-button " data-cmd="server stop">停止</button>
       </div>
 
-      <div>
-        <h3>css</h3>
-        <div>
-          <label><input type="checkbox" name="css">压缩</label>
-          <label><input type="checkbox" name="css">sourceMap</label>
-        </div>
-      </div>
+      <server></server>
 
-
-      <div>
-        <h3>html</h3>
-        <label><input type="checkbox" name="html">压缩</label>
-        <label><input type="checkbox" name="html">不编译</label>
-      </div>
-    </div>
-    <div>
-      编译 
-       <label><input type="checkbox" name="build">liveload</label>
-       <label><input type="checkbox" name="build">watch</label> 
-      <button class="pure-button pure-button-primary" data-cmd="server start">启动</button>
-      <button class="pure-button " data-cmd="server stop">停止</button>
-    </div>
+    </section>
+  </template>
+  <template id="server">
     <div>
       本地服务器:
       <div>
         <label for="">端口</label>
         <input type="text">
       </div>
-
-      <button class="pure-button pure-button-primary" data-cmd="server start">启动</button>
-      <button class="pure-button pure-button-primary" data-cmd="server restart">重启</button>
-      <button class="pure-button " data-cmd="server stop">停止</button>
-      <button class="pure-button" data-cmd="server open">打开目录</button>
-      <button class="pure-button" data-cmd="server clear">清空目录</button>
-
+      <div>
+        <button class="pure-button pure-button-primary" @click='cmd("server start")'>启动</button>
+        <button class="pure-button pure-button-primary" @click='cmd("server restart")'>重启</button>
+        <button class="pure-button" @click='cmd("server stop")'>停止</button>
+        <button class="pure-button" @click='cmd("server open")'>打开目录</button>
+        <button class="pure-button" @click='cmd("server clean")'>清空目录</button>
+      </div>
     </div>
-
-  </section>
-  <template>
-
   </template>
-  <!--<script src="js/vue.js"></script>-->
-  <script src="js/main.js"></script>
+  <script src="js/vue.js"></script>
+  <script src="js/index.js"></script>
 </body>
 
 </html>
