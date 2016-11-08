@@ -1,24 +1,30 @@
-var fis3 = require('fis3');
+var execFile = require('child_process').execFile,
+  fisProcess;
 
-console.log(fis3)
+var createChildProcess = function (arr) {
+  var cmdArr = ['./app/fis/run'].concat(arr);
+  fisProcess = execFile('node', cmdArr, (error, stdout, stderr) => {
+    if (error) {
+      throw error;
+    }
+  });
+
+  fisProcess.stdout.on('data', function (data) {
+    data = data.replace('\[\d*m', '');
+    console.log(data);
+  });
+
+  fisProcess.on('exit', function (code) {
+    console.log('exit');
+  });
+}
 
 var components = {};
 components.server = {
   template: '#server',
   methods: {
     cmd(valStr) {
-      let valArr = valStr.split(' ');
-      fis3.cli.run({
-        _: valArr
-      }, {
-        cwd: 'C:\\',
-        require: [],
-        configNameSearch: ['fis-conf.js'],
-        configPath: null,
-        configBase: undefined,
-        modulePath: undefined,
-        modulePackage: {}
-      })
+      createChildProcess(valStr.split(' '));
     }
   }
 }

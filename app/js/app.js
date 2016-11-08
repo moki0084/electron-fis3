@@ -16,3 +16,7 @@ app.on('ready', function () {
     mainWindow = null;
   });
 });
+
+app.on('error',function(err){
+  console.log(err)
+})
