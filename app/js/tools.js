@@ -14,6 +14,7 @@
 
     fisProcess.stdout.on('data', function (data) {
       data = data.replace(/\[\d*m/g, '');
+      data = data.replace(/\n/g, '<br>');
       consoleData.push(data);
       var jsConsole = document.querySelector('#jsConsole');
       jsConsole.scrollTop = jsConsole.scrollHeight;

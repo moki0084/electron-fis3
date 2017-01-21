@@ -43,7 +43,7 @@ components.index = {
   data: function () {
     return {
       argvs: [],
-      path: '',
+      dist: '',
       root: '',
       mode: 'dist'
     }
@@ -53,7 +53,7 @@ components.index = {
       this[data] = tools.openDirectory();
     },
     run() {
-      var dataArr = ['release', this.mode, '-d', this.path, '-r', this.root];
+      var dataArr = ['release', this.mode, '-d', this.dist, '-r', this.root];
       this.argvs.forEach((val) => {
         dataArr.push('-' + val)
       })

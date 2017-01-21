@@ -27,8 +27,8 @@
         <div>
           <label for="">产出路径</label>
           <div>
-            <input type="text" v-model="path">
-            <div class="pure-button" @click="openDirectory('path')">选择目录</div>
+            <input type="text" v-model="dist">
+            <div class="pure-button" @click="openDirectory('dist')">选择目录</div>
           </div>
         </div>
         <div>
@@ -75,8 +75,8 @@
     <div>
       <div>控制台</div>
       <button class="pure-button pure-button-primary" @click="clear">清空</button>
-      <div style="height: 100px;overflow: auto" id="jsConsole">
-        <p v-for="console in consoleData ">{{console}}</p> 
+      <div id="jsConsole">
+        <span v-for="console in consoleData " v-html="console"></span> 
       </div>
     </div>
   </template>
