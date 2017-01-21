@@ -1,16 +1,26 @@
 var fis = require('fis3');
+var argv = require('yargs').argv;
 
-var cmdArr = process.argv.slice(2);
+delete argv['$0'];
+console.log(argv)
 
-fis.cli.run({
-  _: cmdArr,
-  p: 8080
-}, {
-  cwd: 'C:\\',
+fis.cli.run(argv, {
+  cwd: __dirname,
   require: [],
   configNameSearch: ['fis-conf.js'],
-  configPath: null,
-  configBase: undefined,
+  configPath: __dirname + '\\fis-conf.js',
+  configBase: __dirname,
   modulePath: undefined,
   modulePackage: {}
 });
+/**
+fis3 release dev
+{ _: [ 'release', 'dev' ] }
+{ cwd: 'E:\\workspace\\record\\record\\record-wap\\src',
+  require: [],
+  configNameSearch: [ 'fis-conf.js' ],
+  configPath: 'E:\\workspace\\record\\record\\record-wap\\src\\fis-conf.js',
+  configBase: 'E:\\workspace\\record\\record\\record-wap\\src',
+  modulePath: undefined,
+  modulePackage: {} }
+ */

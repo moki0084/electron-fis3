@@ -14,7 +14,9 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^1.4.1"
+    "electron": "^1.4.1",
+    "fis3-hook-relative": "^2.0.0",
+    "yargs": "^6.6.0"
   },
   "dependencies": {
     "fis3": "^3.4.24"

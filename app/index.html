@@ -19,68 +19,48 @@
       <div class="pure-form">
         <div>
           <label for="">项目路径</label>
-          <div><input type="file" webkitdirectory>
-            <div class="pure-button">选择目录</div>
-          </div>
-        </div>
-        <div>
-          <label for="">目标路径</label>
-          <div><input type="file" webkitdirectory>
-            <div class="pure-button">选择目录</div>
-          </div>
-        </div>
-        <div>
-          <label for="">模式</label>
-          <label><input type="radio" name="mode">开发</label>
-          <label><input type="radio" name="mode">本地服务器</label>
-          <label><input type="radio" name="mode">发布</label>
-          <label><input type="radio" name="mode">静态资源文件</label>
-          <label><input type="radio" name="mode">自定义</label>
-        </div>
-        <div>
-          <h3>js</h3>
           <div>
-            <label><input type="checkbox" name="js">压缩</label>
-            <label><input type="checkbox" name="js">babel</label>
+            <input type="text" v-model="root">
+            <div class="pure-button" @click="openDirectory('root')">选择目录</div>
           </div>
         </div>
         <div>
-          <h3>img</h3>
+          <label for="">产出路径</label>
           <div>
-            <label><input type="checkbox" name="img">压缩</label>
+            <input type="text" v-model="path">
+            <div class="pure-button" @click="openDirectory('path')">选择目录</div>
           </div>
         </div>
         <div>
-          <h3>css</h3>
-          <div>
-            <label><input type="checkbox" name="css">压缩</label>
-            <label><input type="checkbox" name="css">sourceMap</label>
-          </div>
+          <label for="mode">模式</label>
+          <select name="mode" id="mode" v-model="mode">
+            <option value="dev">开发->编译到内置服务器目录</option>
+            <option value="dist">开发->编译到产出目录</option>
+            <option value="prod">发布->编译到产出路径</option>
+            <option value="static">静态资源文件->编译到产出路径</option>
+          </select>
         </div>
-        <div>
-          <h3>html</h3>
-          <label><input type="checkbox" name="html">压缩</label>
-          <label><input type="checkbox" name="html">不编译</label>
-        </div>
+
       </div>
       <div>
         编译
-        <label><input type="checkbox" name="build">liveload</label>
-        <label><input type="checkbox" name="build">watch</label>
-        <button class="pure-button pure-button-primary" data-cmd="server start">启动</button>
+        <label><input type="checkbox" name="argv" value="L" v-model="argvs">liveload</label>
+        <label><input type="checkbox" name="argv" value="w" v-model="argvs">watch</label>
+        <button class="pure-button pure-button-primary" @click="run">启动</button>
         <button class="pure-button " data-cmd="server stop">停止</button>
       </div>
-
+      
       <server></server>
+      <console></console>
 
     </section>
   </template>
   <template id="server">
-    <div>
-      本地服务器:
+    <div class="pure-form">
+      内置服务器:
       <div>
-        <label for="">端口</label>
-        <input type="text">
+        <label for="port">端口</label>
+        <input id="port" type="text" v-model="port">
       </div>
       <div>
         <button class="pure-button pure-button-primary" @click='cmd("server start")'>启动</button>
@@ -91,6 +71,16 @@
       </div>
     </div>
   </template>
+  <template id="console">
+    <div>
+      <div>控制台</div>
+      <button class="pure-button pure-button-primary" @click="clear">清空</button>
+      <div style="height: 100px;overflow: auto" id="jsConsole">
+        <p v-for="console in consoleData ">{{console}}</p> 
+      </div>
+    </div>
+  </template>
+  <script src="js/tools.js"></script>
   <script src="js/vue.js"></script>
   <script src="js/index.js"></script>
 </body>
