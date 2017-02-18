@@ -8,7 +8,7 @@
     var cmdArr = ['./app/fis/run'].concat(arr);
     fisProcess = execFile('node', cmdArr, (error, stdout, stderr) => {
       if (error) {
-        throw error;
+        console.error(error);
       }
     });
 
@@ -20,7 +20,10 @@
       jsConsole.scrollTop = jsConsole.scrollHeight;
     });
 
-    fisProcess.on('exit', function (code) {});
+    fisProcess.on('exit', function (code) {
+    console.log('exit')
+  });
+    return fisProcess;
   };
 
   _module.openDirectory = function () {

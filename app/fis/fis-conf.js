@@ -164,9 +164,9 @@ fis.media('dist').match('map.json', {
 fis.media('dev').match('map.json', {
     release: false
 }).match('*', {
-    // deploy: fis.plugin('local-deliver', {
-    //     to: 'C:/Users/mama/AppData/Local/.fis3-tmp/www/record-wap' + buildPath
-    // })
+    deploy: fis.plugin('local-deliver', {
+        to: fis.project.getTempPath('www')
+    })
 });
 
 //fis3 release prod -d ../../pregnancy_stroage/Public/papi

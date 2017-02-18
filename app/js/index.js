@@ -45,7 +45,8 @@ components.index = {
       argvs: [],
       dist: '',
       root: '',
-      mode: 'dist'
+      mode: 'dist',
+      processPid: 0
     }
   },
   methods: {
@@ -57,7 +58,26 @@ components.index = {
       this.argvs.forEach((val) => {
         dataArr.push('-' + val)
       })
-      tools.createChildProcess(dataArr);
+      var fisProcess = tools.createChildProcess(dataArr);
+      if (this.argvs.length > 0) {
+        this.processPid = fisProcess.pid;
+      }
+    },
+    stop() {
+      process.kill(this.processPid, 'SIGINT');
+      this.processPid = 0;
+    },
+    changeLive() {
+      this.$nextTick(function(){
+      var n = this.argvs;
+      for (var i = 0, l = n.length; i < l; i++) {
+        if (n[i] == 'L') {
+          this.argvs = ['L', 'w'];
+          return false;
+        }
+      }
+      })
+      
     }
   }
 }
