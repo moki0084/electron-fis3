@@ -21,8 +21,8 @@
     });
 
     fisProcess.on('exit', function (code) {
-    console.log('exit')
-  });
+      console.log('exit')
+    });
     return fisProcess;
   };
 
@@ -32,8 +32,8 @@
       properties: ['openDirectory']
     });
     var path = '';
-    if(pathArr.length>0 && pathArr[0]){
-        path = pathArr[0]
+    if (pathArr && pathArr.length > 0 && pathArr[0]) {
+      path = pathArr[0]
     }
     return path
   }

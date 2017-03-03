@@ -4,33 +4,33 @@
 var buildPath = '';
 
 process.argv.forEach((val, index) => {
-    if (val == '-r') {
-        buildPath = '/' + process.argv[++index];
-    }
+  if (val == '-r') {
+    buildPath = '/' + process.argv[++index];
+  }
 });
 
 fis.set('project.ignore', [
-    'node_modules/**',
-    '.idea/**',
-    'fis-conf.js',
-    '**/*.md'
+  'node_modules/**',
+  '.idea/**',
+  'fis-conf.js',
+  '**/*.md'
 
 ]);
 
 fis.config.merge({
-    settings: {
-        optimizer: {
-            'png-compressor': {
-                type: 'pngquant'
-            }
-        },
-        postprocessor: {
-            autoprefixer: {
-                "browsers": ["Android >= 2.3", "ChromeAndroid > 1%", "iOS >= 4", 'IE >=8', 'Firefox >= 20'],
-                "cascade": false
-            }
-        }
+  settings: {
+    optimizer: {
+      'png-compressor': {
+        type: 'pngquant'
+      }
+    },
+    postprocessor: {
+      autoprefixer: {
+        "browsers": ["Android >= 2.3", "ChromeAndroid > 1%", "iOS >= 4", 'IE >=8', 'Firefox >= 20'],
+        "cascade": false
+      }
     }
+  }
 });
 
 fis.set('date', new Date);
@@ -42,9 +42,9 @@ fis.set('date', new Date);
 // 使用相对路径。
 fis.hook('relative');
 fis.match('**', {
-    relative: true
+  relative: true
 }).match('**.min.**', {
-    optimizer: null
+  optimizer: null
 }, true);
 
 
@@ -52,20 +52,20 @@ fis.match('**', {
 
 //sass
 fis.match('**.scss', {
-    rExt: '.css',
-    parser: fis.plugin('node-sass', {
-        sourceMapEmbed: true
-    }),
-    postprocessor: fis.plugin('autoprefixer')
+  rExt: '.css',
+  parser: fis.plugin('sass-by-ruby',{
+      bundleExec: false
+  }),
+  postprocessor: fis.plugin('autoprefixer')
 }).match('(**/)sass(**.scss)', {
-    rExt: '.css',
-    release: '$1css$2'
+  rExt: '.css',
+  release: '$1css$2'
 }).match('(**/)sass(**.map)', {
-    release: '$1css$2'
+  release: '$1css$2'
 });
 
 fis.match('*.css', {
-    postprocessor: fis.plugin('autoprefixer')
+  postprocessor: fis.plugin('autoprefixer')
 });
 
 //base64 img
@@ -75,98 +75,98 @@ fis.match('*.css', {
 //}, true);
 
 fis.match('map.json', {
-    release: false
+  release: false
 });
 fis.match('**.bat', {
-    release: false
+  release: false
 });
 
 fis.match('_**/**', {
-    release: false
+  release: false
 }).match('_*.**', {
-    release: false
+  release: false
 });
 
 
 //sprite
 fis.config.set('settings.spriter.csssprites-group', {
-    scale: 1,
-    //rem: 50,
-    margin: 10,
-    layout: 'matrix',
-    to: '../images/sprite'
+  scale: 1,
+  //rem: 50,
+  margin: 10,
+  layout: 'matrix',
+  to: '../images/sprite'
 });
 
 
 //publish setting
 fis.media('prod')
-    //sass
-    .match('*.scss', {
-        parser: fis.plugin('node-sass', {
-            outputStyle: 'compressed',
-            //sourceMap: true
-            sourceMapEmbed: false
-        })
-    }).match('*.css', {
-        optimizer: fis.plugin('clean-css')
+  //sass
+  .match('*.scss', {
+    parser: fis.plugin('node-sass', {
+      outputStyle: 'compressed',
+      //sourceMap: true
+      sourceMapEmbed: false
     })
-    //
-    //sprite
-    // sprite 会对 CSS 中，路径带 ?__sprite 的图片进行合并
-    // .match('::package', {
-    //     spriter: fis.plugin('csssprites-group')
+  }).match('*.css', {
+    optimizer: fis.plugin('clean-css')
+  })
+  //
+  //sprite
+  // sprite 会对 CSS 中，路径带 ?__sprite 的图片进行合并
+  // .match('::package', {
+  //     spriter: fis.plugin('csssprites-group')
+  // })
+  // // 给匹配到的文件分配属性 `useSprite`
+  // .match('*.{scss,css}', {
+  //     useSprite: true
+  // })
+  //
+  //images
+  .match('*.png', {
+    optimizer: fis.plugin('png-compressor')
+  })
+  //
+  //js
+  .match('*.js', {
+    optimizer: fis.plugin('uglify-js')
+  })
+  //
+  //json map
+  .match('*.{js,css,jpg,png,gif,scss}', {
+    useMap: true,
+    query: '?t=' + (fis.get('date').getYear() + 1900) +
+      (fis.get('date').getMonth() + 1) +
+      (fis.get('date').getDate())
+  }).match('map.json', {
+    release: '/$0'
+  })
+  //
+  //html
+  .match('view/**', {
+    release: false
+  }).match('data/**', {
+    release: false
+  }).match('*', {
+    // deploy: fis.plugin('local-deliver', {
+    //     to: '../../../Public/record-wap' + buildPath
     // })
-    // // 给匹配到的文件分配属性 `useSprite`
-    // .match('*.{scss,css}', {
-    //     useSprite: true
-    // })
-    //
-    //images
-    .match('*.png', {
-        optimizer: fis.plugin('png-compressor')
-    })
-    //
-    //js
-    .match('*.js', {
-        optimizer: fis.plugin('uglify-js')
-    })
-    //
-    //json map
-    .match('*.{js,css,jpg,png,gif,scss}', {
-        useMap: true,
-        query: '?t=' + (fis.get('date').getYear() + 1900) +
-            (fis.get('date').getMonth() + 1) +
-            (fis.get('date').getDate())
-    }).match('map.json', {
-        release: '/$0'
-    })
-    //
-    //html
-    .match('view/**', {
-        release: false
-    }).match('data/**', {
-        release: false
-    }).match('*', {
-        // deploy: fis.plugin('local-deliver', {
-        //     to: '../../../Public/record-wap' + buildPath
-        // })
-    });
+  });
 //dist setting
 fis.media('dist').match('map.json', {
-    release: false
+  release: false
 }).match('*', {
-    // deploy: fis.plugin('local-deliver', {
-    //     to: '../dist' + buildPath
-    // })
+  // deploy: fis.plugin('local-deliver', {
+  //     to: '../dist' + buildPath
+  // })
 });
 
 //dev setting
 fis.media('dev').match('map.json', {
-    release: false
+  release: false
 }).match('*', {
-    deploy: fis.plugin('local-deliver', {
-        to: fis.project.getTempPath('www')
-    })
+  deploy: fis.plugin('local-deliver', {
+    to: fis.project.getTempPath('www')
+  })
 });
 
 //fis3 release prod -d ../../pregnancy_stroage/Public/papi
