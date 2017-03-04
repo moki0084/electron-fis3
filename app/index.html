@@ -15,8 +15,8 @@
   </div>
   <template id="index">
     <section class="content">
-      <h2> fis3 可视化构建工具</h2>
       <div class="pure-form">
+        <h3>常规配置</h3>
         <div>
           <label for="">项目路径</label>
           <div>
@@ -24,6 +24,7 @@
             <div class="pure-button" @click="openDirectory('root')">选择目录</div>
           </div>
         </div>
+        <br>
         <div>
           <label for="">产出路径</label>
           <div>
@@ -31,39 +32,46 @@
             <div class="pure-button" @click="openDirectory('dist')">选择目录</div>
           </div>
         </div>
+        <br>
         <div>
-          <label for="mode">模式</label>
+          <label for="mode">模式: </label>
           <select name="mode" id="mode" v-model="mode">
             <option value="dev">开发->编译到内置服务器目录</option>
-            <option value="dist">开发->编译到产出目录</option>
+            <option value="dist">开发->编译到产出路径</option>
             <option value="prod">发布->编译到产出路径</option>
-            <option value="static">静态资源文件->编译到产出路径</option>
+            <option value="static">静态资源->编译到产出路径</option>
           </select>
         </div>
-
+        <br>
       </div>
+      <br>
       <div>
-        编译
-        <label><input type="checkbox" name="argv" value="L" v-model="argvs" @change="changeLive">liveload</label>
+        <label >编译: </label>
+        <label><input type="checkbox" name="argv" value="L" v-model="argvs" @change="changeLive">liveload</label> 
         <label><input type="checkbox" name="argv" value="w" v-model="argvs">watch</label>
       </div>
+      <br>
       <div>
         <button class="pure-button pure-button-primary" @click="run" v-if="processPid == 0">启动</button>
         <button class="pure-button " data-cmd="server stop" @click="stop"  v-if="processPid != 0">停止</button>
       </div>
-      
+      <br>
+      <br>
       <server></server>
+      <br>
+      <br>
       <console></console>
 
     </section>
   </template>
   <template id="server">
     <div class="pure-form">
-      内置服务器:
+      <h3>内置服务器</h3>
       <div>
         <label for="port">端口</label>
         <input id="port" type="text" v-model="port">
       </div>
+      <br>
       <div>
         <button class="pure-button pure-button-primary" @click='cmd("server start")'>启动</button>
         <button class="pure-button pure-button-primary" @click='cmd("server restart")'>重启</button>
@@ -75,11 +83,12 @@
   </template>
   <template id="console">
     <div>
-      <div>控制台</div>
-      <button class="pure-button pure-button-primary" @click="clear">清空</button>
-      <div id="jsConsole">
+      <h3>控制台</h3>
+      <div id="jsConsole" style="border: 1px solid #ccc; height: 200px; overflow: auto">
         <span v-for="console in consoleData " v-html="console"></span> 
       </div>
+      <br>
+      <button class="pure-button pure-button-primary" @click="clear">清空控制台</button>
     </div>
   </template>
   <script src="js/tools.js"></script>
