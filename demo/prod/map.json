@@ -1,0 +1,35 @@
+{
+    "res": {
+        "image/html5.png": {
+            "uri": "/image/html5.png?t=201734",
+            "type": "png"
+        },
+        "js/common.js": {
+            "uri": "/js/common.js?t=201734",
+            "type": "js",
+            "deps": [
+                "js/module/hello.js"
+            ]
+        },
+        "js/es6.js": {
+            "uri": "/js/es6.js?t=201734",
+            "type": "js"
+        },
+        "js/module/hello.js": {
+            "uri": "/js/module/hello.js?t=201734",
+            "type": "js",
+            "extras": {
+                "moduleId": "js/module/hello"
+            }
+        },
+        "less/less.less": {
+            "uri": "/css/less.css",
+            "type": "css"
+        },
+        "scss/scss.scss": {
+            "uri": "/css/scss.css?t=201734",
+            "type": "css"
+        }
+    },
+    "pkg": {}
+}

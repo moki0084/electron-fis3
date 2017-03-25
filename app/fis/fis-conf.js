@@ -47,33 +47,54 @@ fis.match('**', {
   optimizer: null
 }, true);
 
-
-
-
 //sass
-fis.match('**.scss', {
+fis.match('**.{sass,scss}', {
   rExt: '.css',
-  parser: fis.plugin('sass-by-ruby',{
-      bundleExec: false
+  parser: fis.plugin('sass-by-ruby', {
   }),
   postprocessor: fis.plugin('autoprefixer')
-}).match('(**/)sass(**.scss)', {
+}).match('(**/){sass,scss}(**.{sass,scss})', {
   rExt: '.css',
-  release: '$1css$2'
-}).match('(**/)sass(**.map)', {
   release: '$1css$2'
 });
 
 fis.match('*.css', {
   postprocessor: fis.plugin('autoprefixer')
+})
+
+// 编译less
+fis.match('*.less', {
+  parser: fis.plugin('less-2.x'),
+  rExt: '.css',
+  postprocessor: fis.plugin('autoprefixer')
+}).match('(**/)less(**.less)', {
+  rExt: '.css',
+  release: '$1css$2'
 });
 
-//base64 img
-//fis.match('**/base64/**', {
-//    release: false,
-//    useMap: false
-//}, true);
+//js
+fis.set('project.fileType.text', 'es');
 
+fis.match('*.{es,js,es6}', {
+  parser: fis.plugin('babel-6.x', {
+    sourceMaps: true
+  }),
+  rExt: 'js'
+});
+
+fis.match('*.{js,es,es6}', {
+  preprocessor: [
+    fis.plugin('js-require-file'),
+    fis.plugin('js-require-css')
+  ]
+});
+
+fis.match('module/**.js', {
+  isMod: true
+});
+fis.hook('commonjs');
+
+//过滤文件
 fis.match('map.json', {
   release: false
 });
@@ -101,36 +122,27 @@ fis.config.set('settings.spriter.csssprites-group', {
 //publish setting
 fis.media('prod')
   //sass
-  .match('*.scss', {
-    parser: fis.plugin('node-sass', {
-      outputStyle: 'compressed',
-      //sourceMap: true
-      sourceMapEmbed: false
-    })
-  }).match('*.css', {
+  .match('*.{css,less,sass,scss}', {
     optimizer: fis.plugin('clean-css')
   })
   //
-  //sprite
+  // sprite
   // sprite 会对 CSS 中，路径带 ?__sprite 的图片进行合并
-  // .match('::package', {
-  //     spriter: fis.plugin('csssprites-group')
-  // })
-  // // 给匹配到的文件分配属性 `useSprite`
-  // .match('*.{scss,css}', {
-  //     useSprite: true
-  // })
-  //
+  .match('::package', {
+    spriter: fis.plugin('csssprites-group')
+  })
+  // 给匹配到的文件分配属性 `useSprite`
+  .match('*.{scss,css}', {
+    useSprite: true
+  })
   //images
   .match('*.png', {
     optimizer: fis.plugin('png-compressor')
   })
-  //
   //js
   .match('*.js', {
     optimizer: fis.plugin('uglify-js')
   })
-  //
   //json map
   .match('*.{js,css,jpg,png,gif,scss}', {
     useMap: true,
@@ -140,24 +152,52 @@ fis.media('prod')
   }).match('map.json', {
     release: '/$0'
   })
-  //
-  //html
-  .match('view/**', {
+  .match('**/{mock}/**', {
     release: false
-  }).match('data/**', {
-    release: false
-  }).match('*', {
-    // deploy: fis.plugin('local-deliver', {
-    //     to: '../../../Public/record-wap' + buildPath
-    // })
   });
+
+//static setting
+fis.media('static')
+  //sass
+  .match('*.{css,less,sass,scss}', {
+    optimizer: fis.plugin('clean-css')
+  })
+  //
+  // sprite
+  // sprite 会对 CSS 中，路径带 ?__sprite 的图片进行合并
+  .match('::package', {
+    spriter: fis.plugin('csssprites-group')
+  })
+  // 给匹配到的文件分配属性 `useSprite`
+  .match('*.{scss,css}', {
+    useSprite: true
+  })
+  //images
+  .match('*.png', {
+    optimizer: fis.plugin('png-compressor')
+  })
+  //js
+  .match('*.js', {
+    optimizer: fis.plugin('uglify-js')
+  })
+  //json map
+  .match('*.{js,css,jpg,png,gif,scss}', {
+    useMap: true,
+    query: '?t=' + (fis.get('date').getYear() + 1900) +
+      (fis.get('date').getMonth() + 1) +
+      (fis.get('date').getDate())
+  }).match('map.json', {
+    release: '/$0'
+  })
+  .match('**/{mock,view}/**', {
+    release: false
+  });
+
+
+
 //dist setting
 fis.media('dist').match('map.json', {
   release: false
-}).match('*', {
-  // deploy: fis.plugin('local-deliver', {
-  //     to: '../dist' + buildPath
-  // })
 });
 
 //dev setting
@@ -168,5 +208,3 @@ fis.media('dev').match('map.json', {
     to: fis.project.getTempPath('www')
   })
 });
-
-//fis3 release prod -d ../../pregnancy_stroage/Public/papi
